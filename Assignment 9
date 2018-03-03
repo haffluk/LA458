@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+  <head>
+<meta name="description" content="Assignment 9 LTH b" />
+
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" /> <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+			
+	 </head>
+  <body>
+			<h2>Luke Haffner Assn. 9</h2>
+			<div id="map">
+      </div>  
+      </body>
+      </html>
+
+//end HTML
+
+html, body, 
+
+#map { height: 480px; margin: 0; padding: 0; }
+
+.leaflet-div-icon {
+ background-color: lightblue;
+ text-align: center;
+}
+
+//end CSS
+
+var map = L.map('map').setView([42.2, -94.5], 6);
+
+L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+    maxZoom: 18
+}).addTo(map);
+
+var myPoints = [
+		["40",42.2,-96.0,"a"],
+  ["40",42.2,-95.0,"a"],
+		["40",42.2,-94.0,"a"],
+		["40",42.2,-93.0,"a"],
+		["30",41.2,-94.0,"b"],
+		["30",43.2,-94.0,"c"],
+		["30",41.2,-95.0,"b"],
+		["30",43.2,-95.0,"c"],
+		["25",44.2,-94.0,"d"],
+	 ["25",44.2,-95.0,"d"],
+  ["25",40.2,-94.5,"e"],
+		];
+  
+  	function getColor(d) {
+      return  d == 'a' ? '#018571' :
+              d == 'b' ? "#80cdc1" :
+              d == 'c' ? "#f5f5f5" :
+														d == 'd' ? "#80cdc1" :
+              d == 'e' ? "#a6611a" :
+						   "#FFFFFF"; //white
+		}
+  
+  for (var i = 0; i < myPoints.length; i++) {
+    marker = new L.circleMarker([myPoints[i][1],myPoints[i][2]], {
+      radius: myPoints[i][0]/2,
+			fillColor: getColor(myPoints[i][3]), 
+			color: "#000",
+			weight: 2,
+			opacity: 0.5,
+			fillOpacity: 0.5    
+    })
+    .bindPopup("Category: "+myPoints[i][3]) 
+		.addTo(map);
+		}
+
+//End of my multiple circle markers LTH
+
+var myDivIcon1 = L.divIcon({
+});
+
+var marker1 = L.marker ([43.2, -96.0],{
+ icon: myDivIcon1,
+}).addTo(map).bindPopup('I am marker 1.');
+
+var myDivIcon1 = L.divIcon({
+ iconSize: new L.Point(40, 20),
+ iconAnchor: new L.Point(20, 20),
+ html: 'This is the <br>LTH Div marker',
+ className: 'leaflet-div-icon'
+});
+
+
+//End of my Div markers LTH
+
+var greenIcon = L.icon({
+    iconUrl: 'http://www.google.com/mapfiles/marker.png',
+    shadowUrl: 'http://www.google.com/mapfiles/shadow50.png',
+
+    iconSize:     [20, 34], 
+    shadowSize:   [39, 34], 
+    iconAnchor:   [10, 34], 
+    shadowAnchor: [10, 34],  
+    //popupAnchor:  [-3, -76] 
+	   popupAnchor:  [0, 0]
+});
+
+
+
+var marker = L.marker([39.2, -94.5], {
+	opacity: 2
+}).addTo(map);
+
+
+
+var marker1 = L.marker([44.5, -94.0], {
+  icon: greenIcon,
+	draggable: true,
+	title: "the Title",
+	opacity: 0.7
+}).addTo(map);
+
+var marker1 = L.marker([44.5, -95.0], {
+  icon: greenIcon,
+	draggable: true,
+	title: "the Title",
+	opacity: 0.7
+}).addTo(map);
+
+
+//End of regular and custom marker LTH
+
+var marker1 = L.marker([42.2, -97.0], {
+	draggable: true,
+	title: "hello Class1",
+	opacity: 0.5
+}).addTo(map);
+
+
+var marker2 = L.marker([42.2, -92.0], {
+	draggable: true,
+	title: "hello Class2",
+	opacity: 0.5
+}).addTo(map);
+
+
+
+marker1.bindPopup("The first popup <br>on the Right side").openPopup();
+
+
+
+marker2.bindPopup("2nd popup LTH<br><strong>LA 458 LTH</strong><br>", {
+  maxWidth: 200, 
+  minWidth: 100, 
+  maxHeight: 40, 
+  autoPan: false, 
+  keepInView: false,
+  closeButton: true, 
+  autoPanPadding: [25, 5],
+  //offset: [0, 0]
+});
+
+marker2.openPopup();
+
+
+$('button').click(function() {
+  var popup = marker2._popup;
+  newText = $('#newText').val();
+  popup.setContent(newText);
+});
+
+//End of popup markers
+
+//end JS
