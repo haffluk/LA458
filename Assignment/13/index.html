@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<meta name="robots" content="noindex">
+<html>
+<head>
+  <meta name="description" content="Assignment 13" />
+
+  
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" /> <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"></script>
+	  
+	<script src="https://indicator.extension.iastate.edu/classes/leaflet-ajax-gh-pages/dist/leaflet.ajax.min.js"></script>
+  
+   <style id="jsbin-css">
+  
+
+#map {  position:relative;
+     width: 800px;
+     height: 500px;
+
+}#container{
+	background-color: #625D5D;
+	width: 800px;
+	margin-right: auto;
+	margin-left: auto;
+   border-style: solid;
+   border-width: 5px;
+}
+#header, #footer {
+	clear: both;
+	padding: 10px;
+	background-color: #625D5D;
+	color: white;
+	text-align: center;
+}
+
+.legend {
+    line-height: 12px;
+    color: #566D7E;
+}
+.legend i {
+    width: 20px;
+    height: 20px;
+    float: left;
+    margin-right: 8px;
+    opacity: 0.9;
+}
+.info {
+    padding: 6px 8px;
+    font: 10px/20px Arial, Helvetica, sans-serif;
+    background: rgba(255,255,255,0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+
+}
+.info h4 {
+    margin: 0 0 5px;
+    color: #777;
+}
+
+
+</style>
+</head>
+  <body>
+    
+    <div id="container">
+      <div id = "header">
+    <h2>LA 458 Lucas Haffner  </h2>
+    <h3> Assignment 13: Leaflet legends and loading external JSON/GeoJSON</h3>
+   </div>
+      <div id="map"></div>
+      <div id = "footer"><i>College of Agriculture and Life Sciences, ISU</i></div>
+<script id="jsbin-javascript">
+console.clear();
+
+var map = L.map('map').setView([39.0501, -105.7821], 7);
+
+// add an OpenStreetMap tile layer
+var osm = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+  attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+  maxZoom: 18
+}).addTo(map);
+
+
+//set color of marker
+function getColor(d) {
+  return d <= '702110' ? '#02fc2c' :
+    d <= '1046545' ? "#02c922" :
+   d <= '2811252' ? "#019318" :
+    d <= '4780380' ? "#016811" :
+   
+    "#FFFFFF";
+}
+
+
+function style(feature) {
+    return {
+        fillColor: getColor(feature.properties.TotPop),
+        weight: 2,
+        opacity: 1,
+        color: 'green',
+        dashArray: '3',
+        fillOpacity: 0.6
+    };
+}
+
+
+url = "https://abebrese.github.io/LA558/gh(4).geojson";
+
+var geojsonLayer = new L.GeoJSON.AJAX(url , {
+	style: style,
+	onEachFeature: function (feature, layer) {
+        htmlText = "<strong>" + feature.properties.Region+ "</strong><br>Capital: <b>"  + feature.properties.Capital + "</b><br>Population 2010: <b>"  + feature.properties.Pop2010 + "</b><br>Population 2016: <b>"  + feature.properties.Pop2016 + "</b>";
+layer.bindPopup(htmlText);	layer.bindTooltip(feature.properties.Region);
+    }
+}).addTo(map);
+
+
+
+	
+//Create Legend
+
+
+var legend = L.control({
+  position: 'bottomleft'
+});
+
+legend.onAdd = function(map) {
+  
+
+  var div = L.DomUtil.create('div', 'info legend'),
+    TotPop = [702110, 1046545, 2811252, 4780380],
+    labels = ['0 - 702,110','702111 - 1046545', '1046546 - 2811253','2811254 - 4780380'];
+
+
+   div.innerHTML += "<strong> Total Population (2010)</strong><br> <br>";
+
+  for (var i = 0; i < TotPop.length; i++) {
+    div.innerHTML +=
+      '<i style="background:' + getColor(TotPop[i] ) + ' "></i> ' +
+      labels[i]+'<br>';
+  }
+
+  return div;
+};
+legend.addTo(map);
+
+//BaseMaps
+var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+	attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+});
+
+var OpenStreetMap_Mapnik = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+	maxZoom: 19,
+	attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+});
+	
+
+var OpenTopoMap = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+  maxZoom: 17,
+	attribution: 'Map data: &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+});
+
+ 
+
+// Overlay layers
+
+//------ Vector and Marker Layers stuff
+var city1 = L.marker([39.0639, -108.5506]).bindPopup('Grand Junction: Desired Re-location'),
+    city2 = L.marker([38.2544, -104.6091]).bindPopup('Pueblo: Second Choice for employment'),
+    city3 = L.marker([38.8339, -104.8214]).bindPopup('Colorado Springs: where we would live if I worked in Pueblo'),
+    city4 = L.marker([39.7047, -105.0814]).bindPopup('Lakewood: another Survey location I could maybe work at. Large Federal Center here.'),
+    city5 = L.marker([37.2753, -107.8801]).bindPopup('Durango: a fourth smaller office for the USGS that is fully staffed.'),
+    city6 = L.marker([39.6303, -106.0434]).bindPopup('Dillon: The Heart of Summit County, home of the best snow in the country!'),
+    city7 = L.marker([40.3772, -105.5217]).bindPopup('Estes Park: the entrance to the Rocky Mountian National Park.'),
+    city8 = L.marker([39.9853, -104.8205]).bindPopup('Brighton: a nice stop and go spot coming to or from the Rockies.'),
+    city9 = L.marker([40.2503, -103.8000]).bindPopup('Fort Morgan: another stop along the route to the midwest.');
+var city10 = L.marker([39.8019, -105.5142]).bindPopup('Central City: a favorite mountain town in the Rockies.');
+
+
+
+var Cities = L.layerGroup([city1, city2, city3, city4, city5, city6, city7, city8, city9, city10]);
+
+
+
+//add circle with options
+var circle = L.circle([39.0639, -108.5506], 20000, {
+      color:  'green',
+      fillcolor: '#ff7800',
+      fillOpacity: 0.6
+}).addTo(map);
+
+		//layer control
+		var baseMaps = {
+			"Esri_WorldImagery": Esri_WorldImagery,
+      "OpenTopoMap":OpenTopoMap,
+			"OpenStreetMap_Mapnik": OpenStreetMap_Mapnik,
+			
+		};
+       		
+		var overlayMaps = {
+			"Cities": Cities,
+			"Circle": circle,
+      
+      
+			
+		};
+	
+		L.control.layers(baseMaps, overlayMaps).addTo(map);
+
+
+</script>
+</body>
+</html>
