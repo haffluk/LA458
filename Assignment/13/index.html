@@ -8,6 +8,8 @@
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" /> <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"></script>
 	  
 	<script src="https://indicator.extension.iastate.edu/classes/leaflet-ajax-gh-pages/dist/leaflet.ajax.min.js"></script>
+	
+
   
    <style id="jsbin-css">
   
@@ -15,9 +17,8 @@
 #map {  position:relative;
      width: 800px;
      height: 500px;
-
 }#container{
-	background-color: #625D5D;
+	background-color: #8c4a4a;
 	width: 800px;
 	margin-right: auto;
 	margin-left: auto;
@@ -27,14 +28,13 @@
 #header, #footer {
 	clear: both;
 	padding: 10px;
-	background-color: #625D5D;
+	background-color: #1d591d;
 	color: white;
 	text-align: center;
 }
-
 .legend {
     line-height: 12px;
-    color: #566D7E;
+    color: #0ab20a;
 }
 .legend i {
     width: 20px;
@@ -46,17 +46,14 @@
 .info {
     padding: 6px 8px;
     font: 10px/20px Arial, Helvetica, sans-serif;
-    background: rgba(255,255,255,0.8);
+    background: #bcf2bc;
     box-shadow: 0 0 15px rgba(0,0,0,0.2);
     border-radius: 5px;
-
 }
 .info h4 {
     margin: 0 0 5px;
     color: #777;
 }
-
-
 </style>
 </head>
   <body>
@@ -69,9 +66,11 @@
       <div id="map"></div>
       <div id = "footer"><i>College of Agriculture and Life Sciences, ISU</i></div>
 <script id="jsbin-javascript">
+	
+	
 console.clear();
-
 var map = L.map('map').setView([39.0501, -105.7821], 7);
+
 
 // add an OpenStreetMap tile layer
 var osm = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
@@ -82,85 +81,68 @@ var osm = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 
 //set color of marker
 function getColor(d) {
-  return d <= '702110' ? '#02fc2c' :
-    d <= '1046545' ? "#02c922" :
-   d <= '2811252' ? "#019318" :
-    d <= '4780380' ? "#016811" :
+  return d <= '702' ? '#d4f9da' :
+    d <= '2046' ? "#8fb795" :
+   d <= '5811' ? "#5c8c64" :
+    d <= '14780' ? "#016811" :
    
     "#FFFFFF";
 }
-
-
 function style(feature) {
     return {
-        fillColor: getColor(feature.properties.TotPop),
-        weight: 2,
-        opacity: 1,
-        color: 'green',
+        fillColor: getColor(feature.properties.Population_Total),
+        weight: 1.5,
+        opacity: 0.3,
+        color: 'darkgreen',
         dashArray: '3',
-        fillOpacity: 0.6
+        fillOpacity: 0.7
     };
 }
-
-
-url = "https://abebrese.github.io/LA558/gh(4).geojson";
-
+url = "https://haffluk.github.io/LA458/Assignment/13/Population_Density_Census_Tracts.geojson";
 var geojsonLayer = new L.GeoJSON.AJAX(url , {
 	style: style,
 	onEachFeature: function (feature, layer) {
-        htmlText = "<strong>" + feature.properties.Region+ "</strong><br>Capital: <b>"  + feature.properties.Capital + "</b><br>Population 2010: <b>"  + feature.properties.Pop2010 + "</b><br>Population 2016: <b>"  + feature.properties.Pop2016 + "</b>";
-layer.bindPopup(htmlText);	layer.bindTooltip(feature.properties.Region);
+        htmlText = "<strong>" + feature.properties.County+ "</strong><br>Population: <b>"  + feature.properties.Population_Total + "</b><br> Population Per Square Mile: <b>"  + feature.properties. Population_Density_PerLandSquareMile + "</b>";
+layer.bindPopup(htmlText);	layer.bindTooltip(feature.properties.County);
     }
 }).addTo(map);
 
-
-
 	
 //Create Legend
-
-
 var legend = L.control({
-  position: 'bottomleft'
+  position: 'bottomright'
 });
-
 legend.onAdd = function(map) {
   
-
   var div = L.DomUtil.create('div', 'info legend'),
-    TotPop = [702110, 1046545, 2811252, 4780380],
-    labels = ['0 - 702,110','702111 - 1046545', '1046546 - 2811253','2811254 - 4780380'];
-
-
-   div.innerHTML += "<strong> Total Population (2010)</strong><br> <br>";
-
-  for (var i = 0; i < TotPop.length; i++) {
+    Population = [702, 2046, 5811, 14780],
+    labels = ['0 - 702', '703 - 2046', '2047 - 5811','5812 - 14780'];
+   div.innerHTML += "<strong> Total Population (2012-2016)</strong><br> <br>";
+  for (var i = 0; i < Population.length; i++) {
     div.innerHTML +=
-      '<i style="background:' + getColor(TotPop[i] ) + ' "></i> ' +
+      '<i style="background:' + getColor(Population[i] ) + ' "></i> ' +
       labels[i]+'<br>';
   }
-
   return div;
 };
 legend.addTo(map);
+
 
 //BaseMaps
 var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
 	attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
 });
-
 var OpenStreetMap_Mapnik = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 	maxZoom: 19,
 	attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 });
 	
-
 var OpenTopoMap = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
   maxZoom: 17,
 	attribution: 'Map data: &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
 });
 
  
-
 // Overlay layers
 
 //------ Vector and Marker Layers stuff
@@ -174,9 +156,6 @@ var city1 = L.marker([39.0639, -108.5506]).bindPopup('Grand Junction: Desired Re
     city8 = L.marker([39.9853, -104.8205]).bindPopup('Brighton: a nice stop and go spot coming to or from the Rockies.'),
     city9 = L.marker([40.2503, -103.8000]).bindPopup('Fort Morgan: another stop along the route to the midwest.');
 var city10 = L.marker([39.8019, -105.5142]).bindPopup('Central City: a favorite mountain town in the Rockies.');
-
-
-
 var Cities = L.layerGroup([city1, city2, city3, city4, city5, city6, city7, city8, city9, city10]);
 
 
@@ -188,10 +167,11 @@ var circle = L.circle([39.0639, -108.5506], 20000, {
       fillOpacity: 0.6
 }).addTo(map);
 
+
 		//layer control
 		var baseMaps = {
 			"Esri_WorldImagery": Esri_WorldImagery,
-      "OpenTopoMap":OpenTopoMap,
+   "OpenTopoMap":OpenTopoMap,
 			"OpenStreetMap_Mapnik": OpenStreetMap_Mapnik,
 			
 		};
@@ -205,8 +185,6 @@ var circle = L.circle([39.0639, -108.5506], 20000, {
 		};
 	
 		L.control.layers(baseMaps, overlayMaps).addTo(map);
-
-
 </script>
 </body>
 </html>
