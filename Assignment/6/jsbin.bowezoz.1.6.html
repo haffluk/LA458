@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<!--
+Created using JS Bin
+http://jsbin.com
+
+Copyright (c) 2018 by haffluk (http://jsbin.com/bowezoz/1/edit)
+
+Released under the MIT license: http://jsbin.mit-license.org
+-->
+<meta name="robots" content="noindex">
+<html>
+<head>
+	<meta name="description" content="LH Assignment 6">
+
+	<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+	
+</head>
+<body>
+	
+	<h1>LH Assignment 6</h1>
+	<h2>JQuery</h2>
+	<h3>Element Selector</h3> 
+	<p>This first paragraph is effected by the 'click me' button. When the button is depressed by clicking it, this paragraph disppears.<p>
+	<p>This second paragraph remains after the button is depressed because of the p:first tag in the JavaScript.</p>
+	<button>Click me</button>
+
+
+  
+	<h3>ID Selector</h3>
+	<p>This is a paragraph that will stay and not change.</p>
+	<p id="test1">This is another paragraph that will turn blue because of the $("#test1").css("color", "Blue");.</p>
+	<button id="buttonTest">Select this</button>
+
+<h3>This Selector</h3>
+
+<p>This is a paragraph that will remain.</p>
+<p>And so will this paragraph. It's more about the disappearing button due to the $(this).hide(); part of the code hiding "this" which is the button. I see this now affecting the other buttons making them hide.</p>
+
+<button>Click me</button>
+
+  
+	<h3 class="test2">Class Selector</h3>
+	<p class="test2">It's amazing what a period can do.</p>
+	<p>The class selector works becasue of the $(".test2").hide(); in the JavaScript thaat tells a specific class to do something. In this case, hide (all but this paragraph regarding this selector).</p>
+	<button class="classTest">Press me</button>
+
+
+
+
+<script id="jsbin-javascript">
+$(document).ready(function() {
+  //    $("button:first").click(function(){ 
+  //code
+  //});
+
+  //Don't use a button tag selector like this as it is called by all <button> tags
+  /*
+    $("button").click(function(){
+        $("#test1").hide();
+    });
+*/
+
+  $("button:first").click(function() {
+    $("p:first").hide();
+  });
+
+  $("#buttonTest").click(function() {
+    $("#test1").css("color", "Blue");
+  });
+
+  $("button").click(function(){
+        $(this).hide();
+    });
+});
+  
+  $(".classTest").click(function() {
+    //This hides all Paragraphs, but I think you wanted to hid everything with class = test2
+    // $("p").hide();
+    $(".test2").hide();
+  });
+
+
+</script>
+</body>
+</html>
