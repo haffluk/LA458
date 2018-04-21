@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<!--
+Created using JS Bin
+http://jsbin.com
+
+Copyright (c) 2018 by haffluk (http://jsbin.com/goqugok/1/edit)
+
+Released under the MIT license: http://jsbin.mit-license.org
+-->
+<meta name="robots" content="noindex">
+<html lang="en">
+
+<head>
+
+<meta name="description" content="Assignment 15 LTH">
+    <meta charset="utf-8">
+	
+	<!--External CSS-->
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+	
+	<link rel="stylesheet" href="https://profseeger.github.io/LA558/classes/Leaflet.awesome-markers/leaflet.awesome-markers.css">
+	
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+	
+	<link rel="stylesheet" href="http://code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css">
+	
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+	
+	
+	
+	
+	<!--External JS-->	
+
+    <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+	
+
+   <script src="https://profseeger.github.io/LA558/classes/Leaflet.awesome-markers/leaflet.awesome-markers.js"></script>
+
+
+<style id="jsbin-css">
+    #map {
+        width: 600px;
+        height: 400px;
+    }
+    /* This is new */
+    
+    button {
+        width: 100px;
+    }
+</style>
+</head>
+
+<body>
+	 <div id="map"></div>
+<script id="jsbin-javascript">
+console.clear();
+
+var map = L.map('map').setView([42.0, -93.0], 8);
+
+L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+  attribution: 'ISUEO GIS',
+  maxZoom: 18
+}).addTo(map);
+
+//font Awesome possible colors are as follows - no yellow?
+
+//['red', 'blue', 'green', 'purple', 'orange', 'darkred', 'lightred', 'beige', 'darkblue', 'darkgreen', 'cadetblue', 'darkpurple', 'white', 'pink', 'lightblue', 'lightgreen', 'gray', 'black', 'lightgray']
+
+var marker1 = L.marker([42.0, -93.09], {
+		icon: L.AwesomeMarkers.icon({
+			icon: 'flag', 
+			prefix: 'fa', //from fonts awesome
+			markerColor: 'green',
+			iconColor: 'yellow',
+			spin: true
+		}) 
+});
+
+
+var marker2 = L.marker([42.1, -92.95], {
+		icon: L.AwesomeMarkers.icon({
+			icon: 'star', 
+			prefix: 'glyphicon', //from Bootstrap
+			markerColor: 'orange',
+			iconColor: 'yellow'
+		}) 
+});
+
+var marker3 = L.marker([42.05, -92.95], {
+		icon: L.AwesomeMarkers.icon({
+			icon: 'flag', 
+			prefix: 'fa', 
+			markerColor: 'beige',
+			iconColor: 'yellow'
+		}) 
+});
+
+var marker4 = L.marker([42.0, -92.95], {
+		icon: L.AwesomeMarkers.icon({
+			icon: 'flag', 
+			prefix: 'fa', 
+			markerColor: 'blue',
+			iconColor: 'yellow'
+		}) 
+});
+
+var marker5 = L.marker([42.0, -92.99], {
+		icon: L.AwesomeMarkers.icon({
+			icon: 'flag', 
+			prefix: 'fa', 
+			markerColor: 'white',
+			iconColor: 'black'
+		}) 
+});
+
+var marker6 = L.marker([42.05, -93], {
+		icon: L.AwesomeMarkers.icon({
+			icon: 'flag', 
+			prefix: 'ion', 
+			markerColor: 'white',
+			iconColor: 'black'
+		}) 
+});
+
+
+
+  var squareRedMarker = L.AwesomeMarkers.icon({
+    icon: 'coffee',
+	  prefix: 'fa', 
+    markerColor: 'red',
+    className: 'awesome-marker awesome-marker-square'
+  });
+
+
+var marker7 = L.marker([42.05, -93.1], {
+		icon: squareRedMarker
+});
+
+
+
+
+//note this is a feature group and not a layer group
+var allMarkers = new L.featureGroup([marker1, marker2, marker3, marker4, marker5, marker6, marker7]);
+allMarkers.addTo(map);
+
+map.fitBounds(allMarkers.getBounds(), {
+   padding: [100, 100]
+	//see http://leafletjs.com/reference-1.0.3.html#fitbounds-options-paddingtopleft
+});
+</script>
+</body>
+
+</html>
