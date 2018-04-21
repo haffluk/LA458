@@ -1,0 +1,178 @@
+
+<!DOCTYPE html>
+<!--
+Created using JS Bin
+http://jsbin.com
+
+Copyright (c) 2018 by haffluk (http://jsbin.com/bosehif/2/edit)
+
+Released under the MIT license: http://jsbin.mit-license.org
+-->
+<meta name="robots" content="noindex">
+<html>
+<body>
+  <h1>Assignment 4</h1>
+<h2>JavaScript Functions</h2>
+
+<p>This example calls a function which performs a calculation and returns the result:</p>
+
+<p id="demo"></p>
+
+<p>This example calls a function to convert from Fahrenheit to Celsius:</p>
+<p id="demo1"></p>
+
+  <meta charset="utf-8" />
+  <title>Text Box Selector</title>
+
+  <link rel="stylesheet" href="layout.css" />
+  
+  
+  <h2>JavaScript Array</h2>
+  <p>
+  <label for="amount">Enter County Alphabetic Number:</label>
+  <input type="text" id="countyNum" style="border: 1; font-weight: bold;" onChange="countyDisplay()" value="-" size="4"/>
+</p>
+<div id="slider-range-max"></div>
+<br><br>
+<div id="countyName">-</div>
+  
+ 
+  <h2>Javascript Objects:</h2>
+<p>Creating a JavaScript Object 1.</p>
+
+<p id="demo2"></p>
+
+
+<p>Creating a JavaScript Object 2.</p>
+
+<p id="demo3"></p>
+
+
+<h2>JavaScript Loop</h2>
+  <p>I don't understand the Loop concept very well</p>  
+<p id="demo4"></p>
+  
+
+  <h2>JavaScript If:</h2>
+  
+<p>Display "Good Morning" if the hour is less than 08:00:</p>
+
+<p id="demo5">Good Morning!</p>
+
+
+  <h2>JavaScript Button:</h2>
+<p>Click the button to display the date. Although I don't know where the time comes from.</p>
+
+<button onclick="displayDate()">The time is?</button>
+
+<p id="demo6"></p>
+
+
+<h2>JavaScript Input Field:</h2>
+
+<p>Please input a number between 1 and 10:</p>
+
+<input id="numb">
+
+<button type="button" onclick="myFunction()">Submit</button>
+
+<p id="demo7"></p>
+
+  <h2>JavaScript Output of the Input:</h2>
+
+<p>If you click submit, without filling out the text field,
+your browser will display an error message.</p>
+
+<form action="/action_page.php" method="post">
+  <input type="text" name="fname" required>
+  <input type="submit" value="Submit">
+</form>
+
+  
+  
+<script id="jsbin-javascript">
+
+var x = myFunction(4, 4);
+document.getElementById("demo").innerHTML = x;
+
+function myFunction(a, b) {
+    return a * b;
+}
+
+function toCelsius(f) {
+    return (5/9) * (f-32);
+}
+document.getElementById("demo1").innerHTML = toCelsius(77);
+
+
+  //load values into array
+  var countyList = ["Adair", "Adams", "Allamakee", "Appanoose", "Audubon", "Benton", "Black Hawk", "Boone", "Bremer", "Buchanan", "Buena Vista", "Butler", "Calhoun", "Carroll", "Cass", "Cedar", "Cerro Gordo", "Cherokee", "Chickasaw", "Clarke", "Clay", "Clayton", "Clinton", "Crawford", "Dallas", "Davis", "Decatur", "Delaware", "Des Moines", "Dickinson", "Dubuque", "Emmet", "Fayette", "Floyd", "Franklin", "Fremont", "Greene", "Grundy", "Guthrie", "Hamilton", "Hancock", "Hardin", "Harrison", "Henry", "Howard", "Humboldt", "Ida", "Iowa", "Jackson", "Jasper", "Jefferson", "Johnson", "Jones", "Keokuk", "Kossuth", "Lee", "Linn", "Louisa", "Lucas", "Lyon", "Madison", "Mahaska", "Marion", "Marshall", "Mills", "Mitchell", "Monona", "Monroe", "Montgomery", "Muscatine", "O'Brien", "Osceola", "Page", "Palo Alto", "Plymouth", "Pocahontas", "Polk", "Pottawattamie", "Poweshiek", "Ringgold", "Sac", "Scott", "Shelby", "Sioux", "Story", "Tama", "Taylor", "Union", "Van Buren", "Wapello", "Warren", "Washington", "Wayne", "Webster", "Winnebago", "Winneshiek", "Woodbury", "Worth", "Wright"];
+  
+  console.log(countyList.length); //will print 99
+  
+  function countyDisplay() {
+	  x = document.getElementById("countyNum").value;
+	  //remember Adair is item 0 in the array so x-1 is necessary.
+	  console.log("wrong: "+countyList[x]+",  correct: "+countyList[x-1]);
+	  document.getElementById("countyName").innerHTML = countyList[x-1];
+  } 
+   
+ 
+var car = "Corvette";
+document.getElementById("demo2").innerHTML = car;
+
+ 
+var person = {firstName:"Luke", lastName:"Haffner", age:38, eyeColor:"blue/green"};
+
+document.getElementById("demo3").innerHTML =
+person.firstName + " is " + person.age + " years old " + "and has " + person.eyeColor + " eyes.";
+
+
+
+var cars = ["Honda", "Hyundia", "Chevy", "Ford"];
+var i, len, text;
+for (i = 0, len = cars.length, text = ""; i < len; i++) {
+    text += cars[i] + "<br>";
+}
+
+document.getElementById("demo4").innerHTML = text;
+
+
+if (new Date().getHours() < 08) {
+    document.getElementById("demo5").innerHTML = "Good day!";
+}
+
+
+function displayDate() {
+    document.getElementById("demo6").innerHTML = Date();
+}
+
+
+function myFunction() {
+    var x, text;
+
+    // Get the value of the input field with id="numb"
+    x = document.getElementById("numb").value;
+
+    // If x is Not a Number or less than one or greater than 10
+    if (isNaN(x) || x < 1 || x > 10) {
+        text = "Input not valid";
+    } else {
+        text = "Input OK";
+    }
+    document.getElementById("demo7").innerHTML = text;
+}
+
+-
+
+
+
+
+
+
+
+
+</script>
+</body>
+</html>
+
