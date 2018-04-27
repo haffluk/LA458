@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<!--
+Created using JS Bin
+http://jsbin.com
+
+Copyright (c) 2018 by haffluk (http://jsbin.com/cenapas/1/edit)
+
+Released under the MIT license: http://jsbin.mit-license.org
+-->
+<meta name="robots" content="noindex">
+<html>
+<head>
+<meta name="description" content="LA 458 LTH - Turf.JS">
+	
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>LA 458 LTH Turf JS</title>
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" />
+	
+	<script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"></script>
+	
+	
+<script src="https://code.jquery.com/jquery-2.0.3.js"></script>
+	
+<script src="https://npmcdn.com/@turf/turf@3.5.1/turf.min.js"></script>	
+	
+<script>
+    var bbox = turf.bbox(features);
+</script>
+	
+	
+	
+
+	
+<style id="jsbin-css">
+html, body, 
+
+#map { 
+			position:relative;
+   width: 400px;
+	  height: 00px;
+			margin: 25px; 
+			padding: 0px;
+   margin-right: auto;
+	  margin-left: auto;	  
+	
+	}
+#header, #footer {
+	clear: both;
+	padding: 20px;
+	background-color: navy;
+	color: white;
+	text-align: center;
+}
+
+#container {
+	background-color: aqua;
+ text-align: center;
+	width: 600px;
+	height: 1000px;
+	margin-right: auto;
+	margin-left: auto;
+ border-style: solid;
+ border-width: 30px;
+}
+</style>
+</head>
+<body>
+			 
+		<div id="container">
+     <div id = "header">
+        <h2>Lucas Haffner LA 458 </h2>
+        <h3> Assignment 22: Turf.js</h3>
+     </div><br>
+		
+<div id="mapid" style="width: 600px; height: 400px;"></div>	 
+			 
+<div id="map"></div>
+  <div id = "footer">
+   <i> Lucas T. Haffner, College of Design, ISU
+    </i></div>
+			
+	<p>1. A polyline is drawn and the //var length = turf.lineDistance(myLine, 'miles');
+		console.log("myLine = "+ length + " miles"); calculates the length and displays in the console. 2. A polygon is drawn and the //var area = turf.area(myPolygon);
+	console.log(area + " sq meters");
+	console.log(area * 0.000000386102158542 + " sq miles"); calculates the area inside of the polygon points. 3. A green and blue marker are set so that the smaller dots can determine which is closest to turn that one into a chosen color.</p>
+			<p>This section is the five that I would use in future proj</p>
+			<p>1. tesselate - to triangulate a polygon/fill in a polygon with shaded triangles.</p><p>2. Union - This is a common GIS tool that takes to areas of overlaping polygons and makes them one.</p><p>3. Center of Map - Takes apolygon and finds center. Handy for many applications.</p><p>4. Midpoint - Takes two points and finds a midpoint between the two.</p><p>5. Square - Places a square in the west, south, east, north order of coordinantes.</p>
+
+<script id="jsbin-javascript">
+console.clear();
+//note that http://icons.webtoolhub.com/icon-p4s2023-set.aspx  used for the green icon source.
+
+//JSON of the line
+var myLine = {
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -93.87733001708984,
+            41.9921602333763
+          ],
+          [
+            -93.66342544555664,
+            42.1126981005257
+          ],
+          [
+            -93.63853454589844,
+            41.78960848263661
+          ],
+          [
+            -93.52892150878906,
+            42.01052981889534
+          ]
+        ]
+      }
+    }
+  ]
+};
+
+
+//JSON of the Polygon
+//moved the polygon
+var myPolygon = {
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -93.75861892700195,
+              41.86485119205757
+            ],
+            [
+              -93.7390495300293,
+              41.86485119205757
+            ],
+            [
+              -93.7390495300293,
+              41.87940045674709
+            ],
+            [
+              -93.75861892700195,
+              41.87940045674709
+            ],
+            [
+              -93.75861892700195,
+              41.86485119205757
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+};
+
+
+
+//Calculate the length of the polyline in miles
+var length = turf.lineDistance(myLine, 'miles');
+console.log("myLine = "+ length + " miles");
+
+
+
+//calculates the area of the mPolygon in sq meters and sq miles
+var area = turf.area(myPolygon);
+	console.log(area + " sq meters");
+	console.log(area * 0.000000386102158542 + " sq miles");
+	
+
+//The green marker point on the map
+//moved marker
+var myPoint = {
+  "type": "Feature",
+  "properties": {
+    "marker-color": "#0f0"
+  },
+  "geometry": {
+    "type": "Point",
+    "coordinates": [-93.36,42.00]  //change to 42.05 to cover blue marker and the closest white circle will change
+  }
+};
+
+
+//these are the three white circle markers
+//moved these markers around
+var myPointCollection = {
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+		  id: 1
+	  },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-93.358,
+              42.98]
+      }
+    }, {
+      "type": "Feature",
+      "properties": {
+		  		  id: 2
+	  },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-93.647,
+              42.1445]
+      }
+    },{
+      "type": "Feature",
+      "properties": {
+		  		  id: 3
+	  },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-93.354,
+              42.27]
+      }
+    }
+  ]
+};
+
+
+
+
+//This calculation is geodesic distance of the white circle that is closest to the green marker.
+var nearest = turf.nearest(myPoint, myPointCollection);
+
+var nearestID = nearest.properties.id;
+
+console.log(nearest.properties.id);
+
+
+
+
+
+
+
+
+
+	
+
+
+//*****************
+var mapCenter = L.latLng(42.05,-93.6);
+
+	
+var map = L.map('mapid').setView(mapCenter, 9);
+
+L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+		maxZoom: 18,
+		attribution: ''
+	}).addTo(map);
+
+var mapCenterMarker = L.marker(mapCenter).addTo(map);
+
+//changed these values
+var myStyle = {
+    "color": "blue",
+    "weight": 6,
+    "opacity": 0.35
+};
+
+//Tesselate
+var poly = turf.polygon([[[11, 0], [22, 4], [31, 0], [31, 11], [21, 15], [11, 11], [11, 0]]]);
+var triangles = turf.tesselate(poly);
+
+//Center of Map code
+var polygon5 = turf.polygon([[[-81, 41], [-88, 36], [-84, 31], [-80, 33], [-77, 39], [-81, 41]]]);
+
+var center = turf.centerOfMass(polygon5);
+
+//Midpoint code
+var point1 = turf.point([-44.834823, 19.771257]);
+var point2 = turf.point([-45.14244, 19.830937]);
+
+var midpoint = turf.midpoint(point1, point2);
+
+//Square code
+var bbox = [-20, -20, -15, 0];
+var squared = turf.square(bbox);
+
+
+//Union code
+var poly1 = turf.polygon([[
+    [-43.574787, 19.594087],
+    [-43.574787, 19.615581],
+    [-43.545261, 19.615581],
+    [-43.545261, 19.594087],
+    [-43.574787, 19.594087]
+]], {"fill": "#0f0"});
+var poly2 = turf.polygon([[
+    [-43.560024, 19.585153],
+    [-43.560024, 19.602602],
+    [-43.52964, 19.602602],
+    [-43.52964, 19.585153],
+    [-43.560024, 19.585153]
+]], {"fill": "#00f"});
+
+var union = turf.union(poly1, poly2);
+
+
+
+
+var myPointIcon = L.icon({
+		iconUrl: 'https://profseeger.github.io/LA558/images/chartreuseMapMarker.png',
+		iconSize: [40, 32],
+		iconAnchor: [16, 32],
+		//popupAnchor: [0, -28]
+	});
+
+startPoint =  L.geoJSON(myPoint, {
+		pointToLayer: function (feature, latlng) {
+			return L.marker(latlng, {icon: myPointIcon});
+		},
+		//onEachFeature: onEachFeature
+	}).addTo(map);
+
+
+L.geoJSON(myLine, {
+    style: myStyle
+}).addTo(map);
+
+
+L.geoJSON(myPolygon, {
+    style: myStyle
+}).addTo(map);
+
+
+//if the ID of the item identified as being the nearest matches d, then change color of item to orange.
+function getColor(d) {
+    return d == nearestID ? 'blue' :
+                'aqua';
+}
+
+var geojsonMarkerOptions = {
+    radius: 7,
+    fillColor: "white",
+    color: "#000",
+    weight: 1,
+    opacity: 1,
+    fillOpacity: 0.8
+};
+
+L.geoJSON(myPointCollection, {
+    pointToLayer: function (feature, latlng) {
+        return L.circleMarker(latlng, geojsonMarkerOptions);
+    },
+	style: function(feature) {
+	console.log(feature.properties.id);//note this is how you access contents of the id within L.geoJson
+		return {
+					//radius: some property from geojson,
+					fillColor: getColor(feature.properties.id)
+				};
+			},
+			onEachFeature: function (feature, layer) {
+				layer.bindPopup("ID: "+feature.properties.id);
+			}
+	
+
+	
+}).addTo(map);
+
+</script>
+</body>
+</html>
